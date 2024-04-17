@@ -1,0 +1,1 @@
+// it's responsible for loading .env variables from .env file

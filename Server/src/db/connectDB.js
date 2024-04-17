@@ -1,0 +1,1 @@
+// it's responsible for connecting server to database
