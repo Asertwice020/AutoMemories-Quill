@@ -1,0 +1,92 @@
+THIRD PARTY SERVICES:
+
+cloudinary
+database (in case of server is running but db is unable to talk)
+multer (uploading some files, but multer is not responding)
+
+STATUS CODE:
+
+503 -> 'Service Unavailable' -> a third party service that you rely on is currently down.
+
+Server/db/index.js: HOW TO CONNECT SERVER TO DB.
+
+1. creating a function which contain: all the connection logic.
+2. it's an async function.
+3. it uses try-catch: to handling errors.
+4. await the connection.
+
+Server/configEnv/index.js: LOAD ALL THE ENV SECRETS WITH VALIDATION BEFORE APP GOING TO START.
+
+1. import dotenv and config it.
+2. create 2 methods in it.
+3. one for validating the type of env secret.
+4. second for call that validation and get the env secrets.
+5. export the loaded data.
+
+3.1: ask for 2 things: varName, expectedType.
+3.2: extract the value, in value constant.
+3.3: if value is undefined, throw an error.
+3.4: convert the value into number or string, before throwing the last error.
+3.5: if convertedValueType is not same as expectedType, throw an error.
+
+👨‍💻It's a test code to check all the env secrets are loading correctly or not👨‍💻
+
+console.log("configEnv: \n{");
+for (const key in configEnv) {
+  const type = typeof configEnv[key];
+  console.log(`  ${key}: ${type}`);
+}
+console.log("}");
+
+👨‍💻👨‍💻Server/utils/apiError.util.js -> USAGE SYNTAX -> IF THERE IS ONLY ERROR CLASS BUT YOU STILL WANT TO USE YOUR CUSTOM CLASS: APIERROR👨‍💻👨‍💻
+
+NOTE: If there is no special need to use this util, so just don't do. You can also use simple log to show the message.
+
+TIP: You can also use throw instead of making it so big, but after throwing you can't write any code.
+
+EXAMPLE:
+    throw new ApiError(
+      503,
+      error?.message ||
+        `Facing an issue while connecting to MONGODB :: DB/index.js`,
+      error,
+      error?.stack
+    );
+    // UNREACHABLE CODE
+    // LOG
+    console.log(errorObj);
+    process.exit(1);
+
+
+SYNTAX:
+const errorObj = new ApiError(
+      statusCode,
+      error?.message ||
+        `customeMsg :: filePath`,
+      error, (error object from the parameter)
+      error?.stack
+    );
+    // LOG
+    console.log(errorObj);
+
+
+    throw new ApiError(
+      statusCode,
+      error?.message ||
+        `customeMsg :: filePath`,
+      error, (error object from the parameter)
+      error?.stack
+    );
+
+
+
+EXAMPLE:
+const errorObj = new ApiError(
+      503,
+      error?.message ||
+        `Facing an issue while connecting to MONGODB :: DB/index.js`,
+      error,
+      error?.stack
+    );
+    // LOG
+    console.log(errorObj); 
